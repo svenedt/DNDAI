@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import requests
 from io import BytesIO
 from gtts import gTTS
+import glob
 
 load_dotenv()
 
@@ -103,6 +104,44 @@ def root():
 @app.route('/demo/<path:path>')
 def send_demo(path):
     return send_from_directory('demo', path)
+
+@app.route('/api/rag/books', methods=['GET'])
+def rag_books():
+    # List all PDFs in the source folder
+    pdfs = glob.glob('/mnt/user/dnd/DRIVE/Books/*.pdf')
+    return jsonify({'books': [os.path.basename(p) for p in pdfs]})
+
+@app.route('/api/rag/ingested', methods=['GET'])
+def rag_ingested():
+    # List all .md files in rag-data
+    mds = glob.glob('rag-data/*.md')
+    return jsonify({'chunks': [os.path.basename(m) for m in mds]})
+
+@app.route('/api/rag/preview', methods=['GET'])
+def rag_preview():
+    # Return the content of a chunk for preview
+    filename = request.args.get('file')
+    if not filename or not filename.endswith('.md'):
+        return jsonify({'error': 'Invalid file'}), 400
+    path = os.path.join('rag-data', filename)
+    if not os.path.exists(path):
+        return jsonify({'error': 'File not found'}), 404
+    with open(path, 'r', encoding='utf-8') as f:
+        content = f.read(5000)  # Limit preview to 5k chars
+    return jsonify({'content': content})
+
+@app.route('/api/rag/ingest', methods=['POST'])
+def rag_ingest():
+    # Stub: In the future, trigger ingestion for a book or all books
+    data = request.json or {}
+    book = data.get('book')
+    # For now, just return a message
+    return jsonify({'status': 'Ingestion not yet implemented in API', 'book': book})
+
+@app.route('/pdfs/<path:filename>')
+def serve_pdf(filename):
+    # Serve PDF files from the book source directory
+    return send_from_directory('/mnt/user/dnd/DRIVE/Books', filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=51234) 

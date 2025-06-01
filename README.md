@@ -5,6 +5,7 @@ DNDAI is a modular AI-powered D&D assistant with:
 - A Flask-based LLM server (OpenRouter + ElevenLabs TTS integration)
 - Modern web demo UI (served by Flask)
 - Foundry VTT module (WIP)
+- **RAG Management Dashboard**: In-browser management of book ingestion, preview, and PDF viewing
 
 ## Quick Start
 
@@ -40,10 +41,18 @@ Open in your browser:
 - RAG file input (optional)
 - TTS (gTTS or ElevenLabs, with dynamic voice list)
 - Audio playback
+- **RAG Management**: List, preview, and ingest books; view PDFs in-browser
+
+## RAG Management
+- Access the RAG Management section at the bottom of the demo UI
+- List all PDFs in your source folder
+- Preview ingested chapters and view PDFs in-browser
+- Trigger ingestion (stub for now)
+- See `RAG-operations.md` for CLI and automation
 
 ## Development
 - All static files are in `llm-server/demo/` and served by Flask.
-- API endpoints: `/api/llm`, `/api/tts`, `/api/voices`
+- API endpoints: `/api/llm`, `/api/tts`, `/api/voices`, `/api/rag/books`, `/api/rag/ingested`, `/api/rag/preview`, `/pdfs/<filename>`
 - To add new RAG files, place them in `llm-server/rag-data/`.
 
 ## Testing
@@ -57,4 +66,4 @@ pytest
 - If you see 404s for JS/CSS, ensure you access the demo via `/` or `/demo/` on port 51234.
 
 ---
-For more, see `AI-Assisted-DND-MCP-Plan.md` and `ROADMAP.md`.
+For more, see `AI-Assisted-DND-MCP-Plan.md`, `ROADMAP.md`, and `RAG-operations.md`.

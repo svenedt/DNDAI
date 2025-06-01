@@ -5,10 +5,13 @@ This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phase
 ---
 
 ## Phase 1: Retrieval-Augmented Generation (RAG) Foundation
-- [ ] Set up a vector database (Chroma, Weaviate, or FAISS) and basic ingestion/query pipeline
-- [ ] Backend: Add endpoints for uploading/querying RAG data
-- [ ] Frontend: UI for uploading/viewing RAG files, toggle RAG on/off
-- [ ] Integrate RAG context into LLM completions
+- [x] Set up a vector database (Chroma, Weaviate, or FAISS) and basic ingestion/query pipeline
+- [x] Backend: Add endpoints for uploading/querying RAG data
+- [x] Frontend: UI for uploading/viewing RAG files, toggle RAG on/off
+- [x] Integrate RAG context into LLM completions
+- [x] **RAG Management Dashboard**: In-browser management of book ingestion, preview, and PDF viewing
+- [x] **PDF Viewer**: DM can read books in-browser
+- [x] **Management API endpoints**: `/api/rag/books`, `/api/rag/ingested`, `/api/rag/preview`, `/pdfs/<filename>`
 
 ## Phase 2: Persona/NPC Management
 - [ ] UI to create, edit, and save custom personas
