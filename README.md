@@ -1,42 +1,60 @@
-# DNDAI: AI-Assisted D&D Master Control Program (MCP)
+# DNDAI: D&D AI Modular Project
 
-Welcome to DNDAI, an ambitious project to create a next-generation, AI-assisted Master Control Program (MCP) for immersive tabletop role-playing games like Dungeons & Dragons.
+## Overview
+DNDAI is a modular AI-powered D&D assistant with:
+- A Flask-based LLM server (OpenRouter + ElevenLabs TTS integration)
+- Modern web demo UI (served by Flask)
+- Foundry VTT module (WIP)
 
-## Project Overview
-DNDAI aims to blend the creativity of human Dungeon Masters with the power of modern AI, providing tools for on-the-fly NPC dialogue, rules lookups, encounter ideas, and much more—all while keeping the DM in control. The system is modular, extensible, and designed for both in-person and remote play.
+## Quick Start
 
-## Key Features
-- **Foundry VTT Integration:** Custom modules for seamless AI, TTS, and advanced features.
-- **Multi-LLM Support:** Unified interface for GPT, Claude, PaLM, and more.
-- **Text-to-Speech (TTS) & Voice Modulation:** High-quality, expressive NPC and narration voices.
-- **Retrieval-Augmented Generation (RAG):** Smart rules and lore lookups using vector databases.
-- **DM Approval Workflow:** Co-DM interface for reviewing, editing, or approving AI suggestions.
-- **Speaker Tracking:** Real-time speech recognition and diarization for immersive, personalized play.
-- **Undo/Rewind System:** Event log and timeline for easy retcons and corrections.
-- **Optional Enhancements:** Lighting (Hue/WLED), AI art, soundboard integration, and more.
+### 1. Clone and Install
+```bash
+git clone <repo-url>
+cd DNDAI
+pip install -r llm-server/requirements.txt
+```
 
-## Roadmap
-See the full [ROADMAP.md](./ROADMAP.md) for detailed phases and tasks.
+### 2. Configure API Keys
+Create a `.env` file in `llm-server/` with:
+```
+OPENROUTER_API_KEY=sk-...
+ELEVENLABS_API_KEY=...
+```
 
-## Getting Started
-*Setup instructions will be added as the project develops.*
+### 3. Run the Server
+```bash
+cd llm-server
+python3 app.py
+```
+- The server runs on **port 51234** by default.
+- Both API and frontend are served from Flask.
 
-1. Clone the repository:
-   ```bash
-   git clone git@github.com:svenedt/DNDAI.git
-   ```
-2. Follow the roadmap for current development focus.
+### 4. Access the Demo UI
+Open in your browser:
+- http://<your-server-ip>:51234/
 
-## Contributing
-Contributions, ideas, and feedback are welcome! Please open an issue or submit a pull request.
+### 5. Features
+- LLM prompt/response (OpenRouter)
+- Persona selector
+- RAG file input (optional)
+- TTS (gTTS or ElevenLabs, with dynamic voice list)
+- Audio playback
 
-## License
-*License information will be added soon.*
+## Development
+- All static files are in `llm-server/demo/` and served by Flask.
+- API endpoints: `/api/llm`, `/api/tts`, `/api/voices`
+- To add new RAG files, place them in `llm-server/rag-data/`.
 
-## Contact
-Project lead: [svenedt](https://github.com/svenedt)  
-For questions or collaboration, open an issue or contact via GitHub.
+## Testing
+```bash
+cd llm-server
+pytest
+```
+
+## Troubleshooting
+- If voices or TTS do not work, check your `.env` keys and Flask logs.
+- If you see 404s for JS/CSS, ensure you access the demo via `/` or `/demo/` on port 51234.
 
 ---
-
-*This project is in early development. Stay tuned for updates and new features!*
+For more, see `AI-Assisted-DND-MCP-Plan.md` and `ROADMAP.md`.
