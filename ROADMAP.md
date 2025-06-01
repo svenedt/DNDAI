@@ -1,55 +1,60 @@
 # DNDAI Project Roadmap
 
-This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phases and tasks. Check off items as you complete them!
+This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phases and tasks, in a technically optimal order. Check off items as you complete them!
 
 ---
 
-## Phase 1: Core Integration (MVP)
-- [x] Set up project repository and CI/CD pipeline
-- [x] Create Docker baseline for development
-- [x] Develop a basic Foundry VTT module
-- [x] Integrate a single LLM (OpenRouter API, echo endpoint)
-- [x] Implement DM approval UI for LLM outputs (Foundry + standalone test harness)
-- [x] Document setup and usage instructions
-- [x] Add backend demo UI for LLM server
-- [x] Add logging and error handling to backend
-- [x] Make LLM server URL configurable in Foundry module
-- [x] Add basic API test for backend
-- [x] Fix import/test issues for backend
-- [x] Unify backend and frontend under Flask (serve static frontend from Flask)
-- [x] Modern web demo UI (dark theme, persona, RAG, TTS, voice list)
-- [x] .env-based API key management
+## Phase 1: Retrieval-Augmented Generation (RAG) Foundation
+- [ ] Set up a vector database (Chroma, Weaviate, or FAISS) and basic ingestion/query pipeline
+- [ ] Backend: Add endpoints for uploading/querying RAG data
+- [ ] Frontend: UI for uploading/viewing RAG files, toggle RAG on/off
+- [ ] Integrate RAG context into LLM completions
 
-## Phase 2: TTS & Voice Modulation
-- [x] Add TTS endpoint to backend (gTTS, basic)
-- [x] Integrate ElevenLabs TTS API
-- [x] Add voice profile selection for NPCs (dynamic voice list)
-- [ ] Enable TTS output in Foundry or via a companion app
+## Phase 2: Persona/NPC Management
+- [ ] UI to create, edit, and save custom personas
+- [ ] Backend: Store/retrieve persona definitions, assign default voices
+- [ ] Assign personas to LLM and TTS interactions
 
-## Phase 3: Retrieval-Augmented Generation (RAG)
-- [ ] Set up vector database (Chroma/Weaviate)
-- [x] Add sample RAG data file
-- [ ] Index SRD and homebrew content
-- [ ] Implement /rules or Q&A command with RAG
+## Phase 3: Advanced TTS Features
+- [ ] Add controls for stability, style, accent, pitch, etc. (where supported)
+- [ ] Save and reuse custom voice profiles
+- [ ] Support for more TTS providers (Azure, Google Cloud, etc)
 
-## Phase 4: Speaker Tracking
-- [ ] Integrate Whisper + Pyannote (or cloud STT)
-- [ ] Build UI for speaker assignment/correction
-- [ ] Feed speaker-labeled text to LLM
+## Phase 4: Session/State Management
+- [ ] Save/load session state (personas, context, chat history)
+- [ ] Export/import campaign data
 
-## Phase 5: Undo/Rewind System
-- [ ] Implement event logging and state snapshots
-- [ ] Build timeline UI for DM to revert actions
+## Phase 5: Foundry VTT Integration
+- [ ] Enable real-time LLM/TTS interaction from within Foundry
+- [ ] Add chat panel/sidebar for AI/NPC dialogue
+- [ ] Push TTS audio to players/DM in Foundry
+
+## Phase 6: Speaker Tracking & Assignment
+- [ ] Integrate Whisper or cloud STT for live speech-to-text
+- [ ] UI for speaker assignment/correction
+- [ ] Feed speaker-labeled text to LLM for context-aware responses
+
+## Phase 7: Undo/Rewind/Timeline
+- [ ] Event logging for all LLM/TTS actions
+- [ ] UI: Timeline/history view, revert/undo actions
 - [ ] Integrate with chat and VTT state
 
-## Phase 6: Optional Enhancements
-- [ ] Integrate Hue/WLED lighting for scene-based effects
-- [ ] Add Stable Diffusion/Midjourney image generation
-- [ ] Integrate soundboard API (Syrinscape, Arkenforge, etc.)
+## Phase 8: Optional Enhancements
+- [ ] Lighting integration (Hue, WLED) for scene-based effects
+- [ ] AI art/image generation (Stable Diffusion, Midjourney)
+- [ ] Soundboard integration (Syrinscape, Arkenforge)
 
 ---
 
-## Ongoing
+## Ongoing Polish & DevOps
+- [ ] Better error handling and user feedback in the UI
+- [ ] API key management UI (show status, test keys)
+- [ ] Mobile-friendly UI
+- [ ] User authentication (for multi-user or cloud deployment)
+- [ ] Deployment scripts (Docker Compose, systemd, etc)
+- [ ] Expand automated tests (API, UI, integration)
+- [ ] Add CI/CD for auto-deployments
+- [ ] Usage analytics (opt-in)
 - [x] Gather user feedback and iterate on features (ongoing)
 - [x] Update documentation and onboarding guides (ongoing)
 - [x] Refactor and optimize codebase as needed (ongoing)
