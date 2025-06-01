@@ -15,12 +15,15 @@ This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phase
 - [x] Add logging and error handling to backend
 - [x] Make LLM server URL configurable in Foundry module
 - [x] Add basic API test for backend
-- [ ] Fix import/test issues for backend (in progress)
+- [x] Fix import/test issues for backend
+- [x] Unify backend and frontend under Flask (serve static frontend from Flask)
+- [x] Modern web demo UI (dark theme, persona, RAG, TTS, voice list)
+- [x] .env-based API key management
 
 ## Phase 2: TTS & Voice Modulation
 - [x] Add TTS endpoint to backend (gTTS, basic)
-- [ ] Integrate ElevenLabs (or similar) TTS API
-- [ ] Add voice profile selection for NPCs
+- [x] Integrate ElevenLabs TTS API
+- [x] Add voice profile selection for NPCs (dynamic voice list)
 - [ ] Enable TTS output in Foundry or via a companion app
 
 ## Phase 3: Retrieval-Augmented Generation (RAG)
