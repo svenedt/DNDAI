@@ -5,20 +5,27 @@ This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phase
 ---
 
 ## Phase 1: Core Integration (MVP)
-- [ ] Set up project repository and CI/CD pipeline
-- [ ] Create Docker baseline for development
-- [ ] Develop a basic Foundry VTT module
-- [ ] Integrate a single LLM (e.g., OpenAI GPT-4) with slash commands
-- [ ] Implement DM approval UI for LLM outputs
-- [ ] Document setup and usage instructions
+- [x] Set up project repository and CI/CD pipeline
+- [x] Create Docker baseline for development
+- [x] Develop a basic Foundry VTT module
+- [x] Integrate a single LLM (OpenRouter API, echo endpoint)
+- [x] Implement DM approval UI for LLM outputs (Foundry + standalone test harness)
+- [x] Document setup and usage instructions
+- [x] Add backend demo UI for LLM server
+- [x] Add logging and error handling to backend
+- [x] Make LLM server URL configurable in Foundry module
+- [x] Add basic API test for backend
+- [ ] Fix import/test issues for backend (in progress)
 
 ## Phase 2: TTS & Voice Modulation
+- [x] Add TTS endpoint to backend (gTTS, basic)
 - [ ] Integrate ElevenLabs (or similar) TTS API
 - [ ] Add voice profile selection for NPCs
 - [ ] Enable TTS output in Foundry or via a companion app
 
 ## Phase 3: Retrieval-Augmented Generation (RAG)
 - [ ] Set up vector database (Chroma/Weaviate)
+- [x] Add sample RAG data file
 - [ ] Index SRD and homebrew content
 - [ ] Implement /rules or Q&A command with RAG
 
@@ -40,9 +47,9 @@ This roadmap breaks down the AI-Assisted D&D "MCP" project into actionable phase
 ---
 
 ## Ongoing
-- [ ] Gather user feedback and iterate on features
-- [ ] Update documentation and onboarding guides
-- [ ] Refactor and optimize codebase as needed
+- [x] Gather user feedback and iterate on features (ongoing)
+- [x] Update documentation and onboarding guides (ongoing)
+- [x] Refactor and optimize codebase as needed (ongoing)
 
 ---
 
