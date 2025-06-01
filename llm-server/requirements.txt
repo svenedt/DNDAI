@@ -1,3 +1,8 @@
+# LLM server dependencies
+flask
+flask-cors
+pytest
+
 # Placeholder for LLM server dependencies
 # Add packages like flask, openai, etc. as needed 
 flask

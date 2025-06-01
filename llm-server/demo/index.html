@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNDAI LLM Server Demo</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    #response { margin-top: 1em; padding: 1em; background: #f0f0f0; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>DNDAI LLM Server Demo</h1>
+  <form id="llm-form">
+    <label for="prompt">Prompt:</label><br>
+    <textarea id="prompt" rows="4" cols="60"></textarea><br>
+    <button type="submit">Send to LLM</button>
+  </form>
+  <div id="response"></div>
+  <script src="demo.js"></script>
+</body>
+</html> 
