@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  foundry-module:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./foundry-module:/app
+    command: tail -f /dev/null
+  llm-server:
+    build: ./llm-server
+    working_dir: /app
+    volumes:
+      - ./llm-server:/app
+    ports:
+      - "5050:5000" 

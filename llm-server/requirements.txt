@@ -1,0 +1,4 @@
+# Placeholder for LLM server dependencies
+# Add packages like flask, openai, etc. as needed 
+flask
+flask-cors 

@@ -1,0 +1,15 @@
+{
+  "name": "dndai-mcp",
+  "title": "DNDAI Master Control Program",
+  "description": "AI-assisted D&D Foundry VTT module (skeleton)",
+  "version": "0.1.0",
+  "author": "svenedt",
+  "minimumCoreVersion": "10",
+  "compatibleCoreVersion": "11",
+  "scripts": ["main.js"],
+  "esmodules": [],
+  "styles": [],
+  "languages": [],
+  "packs": [],
+  "system": "dnd5e"
+} 

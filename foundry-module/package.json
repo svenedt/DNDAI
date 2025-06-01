@@ -1,0 +1,7 @@
+{
+  "name": "foundry-module",
+  "version": "0.1.0",
+  "main": "main.js",
+  "description": "Placeholder for Foundry VTT module integration.",
+  "license": "MIT"
+} 
