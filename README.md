@@ -109,5 +109,10 @@ pytest
 - If voices or TTS do not work, check your `.env` keys and Flask logs.
 - If you see 404s for JS/CSS, ensure you access the demo via `/` or `/demo/` on port 51234.
 
+## New Features (June 2025)
+- **Robust tag parsing:** The TTS demo now supports a wide variety of tag styles (e.g., [NARRATIVE], [NARRATIVE:], NARRATIVE:, etc.) and strips all tags before sending text to TTS.
+- **Debug Log:** A collapsible debug panel in the UI shows exactly how your input is parsed, tagged, and assigned to voices—making troubleshooting easy.
+- **Persistent voice settings:** Your TTS platform and voice assignments are saved across page refreshes for a smoother workflow.
+
 ---
 For more, see `AI-Assisted-DND-MCP-Plan.md`, `ROADMAP.md`, and `RAG-operations.md`.

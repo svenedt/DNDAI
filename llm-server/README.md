@@ -63,4 +63,9 @@ If you see import errors, ensure you are running the test from the project root 
 - Document and design the technical and user experience strategy for these features before implementation.
 - Prioritize based on technical feasibility, user value, and integration with existing LLM/TTS flows.
 
-*This section is a living roadmap for the next generation of immersive, multi-voice, AI-powered tabletop experiences!* 
+*This section is a living roadmap for the next generation of immersive, multi-voice, AI-powered tabletop experiences!*
+
+## New Features (June 2025)
+- **Robust tag parsing:** The TTS demo now supports a wide variety of tag styles (e.g., [NARRATIVE], [NARRATIVE:], NARRATIVE:, etc.) and strips all tags before sending text to TTS.
+- **Debug Log:** A collapsible debug panel in the UI shows exactly how your input is parsed, tagged, and assigned to voices—making troubleshooting easy.
+- **Persistent voice settings:** Your TTS platform and voice assignments are saved across page refreshes for a smoother workflow. 
