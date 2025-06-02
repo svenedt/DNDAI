@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNDAI Screenplay Demo</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; background: #181a1b; color: #eee; }
+    h1, h2 { color: #ffd700; }
+    .section { margin-bottom: 2em; padding: 1em; background: #23272a; border-radius: 8px; }
+    label { font-weight: bold; }
+    textarea, select, input[type=text] { width: 100%; margin-bottom: 1em; border-radius: 4px; border: 1px solid #444; background: #222; color: #eee; padding: 0.5em; resize: vertical; }
+    button { background: #ffd700; color: #222; border: none; border-radius: 4px; padding: 0.5em 1em; font-weight: bold; cursor: pointer; margin-right: 0.5em; }
+    button:active { background: #e6c200; }
+    #llm-response, #tts-audio { margin-top: 1em; }
+    #voice-reset { float: right; }
+    #context { background: #222; border: 1px solid #444; padding: 1em; margin-top: 1em; border-radius: 6px; color: #ffd700; }
+  </style>
+</head>
+<body>
+  <h1>DNDAI Screenplay Demo</h1>
+
+  <div class="section">
+    <label for="screenplay-input">Screenplay Input:</label>
+    <textarea id="screenplay-input" rows="8" placeholder="NARRATOR: The inn is warm and lively.\nBALDRIC: \"Welcome, traveler!\"\nNARRATOR: As he poured a mug of ale, the dwarf couldn't shake the feeling of unease."></textarea>
+    <button type="button" id="screenplay-to-tts">Send to TTS</button>
+  </div>
+
+  <div class="section">
+    <h2>TTS</h2>
+    <form id="tts-form">
+      <label for="tts-platform">TTS Platform:</label>
+      <select id="tts-platform">
+        <option value="gtts">gTTS (Google)</option>
+        <option value="elevenlabs">ElevenLabs</option>
+      </select>
+      <label for="voice-select">Default Voice:</label>
+      <select id="voice-select"></select>
+      <button type="button" id="voice-reset">Reset Voices</button>
+      <div id="voice-mapping-panel" style="margin:1em 0; padding:0.5em; background:#222; border-radius:6px;">
+        <strong>Character Voice Mapping:</strong>
+        <div id="character-voice-mapping"></div>
+      </div>
+      <label for="tts-text">Text-to-Speech (parsed):</label>
+      <textarea id="tts-text" rows="4" readonly></textarea>
+      <button type="submit">Generate Speech</button>
+    </form>
+    <audio id="tts-audio" controls style="display:none;"></audio>
+    <div id="tts-status"></div>
+  </div>
+
+  <script src="demo/demo-screenplay.js"></script>
+</body>
+</html> 

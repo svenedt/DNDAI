@@ -71,14 +71,32 @@ const staticVoices = [
   { id: 'yoZ06aMxZJJ28mfd3POQ', name: 'Sam' }
 ];
 
+function populateVoiceAssignments(voices) {
+  ['voice-narrative', 'voice-spoken', 'voice-internal'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    sel.innerHTML = '';
+    voices.forEach(v => {
+      const opt = document.createElement('option');
+      opt.value = v.voice_id || v.id || v.name;
+      opt.textContent = v.name || v.voice_id || v.id;
+      sel.appendChild(opt);
+    });
+    // Set default to match main voice-select
+    if (voiceSelect.value) sel.value = voiceSelect.value;
+  });
+}
+
 async function fetchVoices() {
   ttsStatus.textContent = 'Fetching voices...';
+  let voices = [];
   if (ttsPlatform.value === 'elevenlabs') {
     try {
       const res = await fetch('/api/voices');
       const data = await res.json();
+      voices = data.voices;
       voiceSelect.innerHTML = '';
-      data.voices.forEach(v => {
+      voices.forEach(v => {
         const opt = document.createElement('option');
         opt.value = v.voice_id || v.id || v.name;
         opt.textContent = v.name || v.voice_id || v.id;
@@ -97,8 +115,10 @@ async function fetchVoices() {
       opt.textContent = v.name;
       voiceSelect.appendChild(opt);
     });
+    voices = staticVoices;
     ttsStatus.textContent = '';
   }
+  populateVoiceAssignments(voices);
 }
 
 ttsPlatform.addEventListener('change', fetchVoices);
@@ -210,4 +230,143 @@ document.getElementById('rag-ingested-list').parentElement.appendChild(ragIngest
 
 // Initial load
 fetchRagBooks();
-fetchRagIngested(); 
+fetchRagIngested();
+
+// Tagging toolbar logic
+function wrapSelection(tag) {
+  const textarea = llmPrompt;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  if (start === end) return; // No selection
+  const before = textarea.value.substring(0, start);
+  const selected = textarea.value.substring(start, end);
+  const after = textarea.value.substring(end);
+  textarea.value = before + `[${tag.toUpperCase()}]` + selected + `[/${tag.toUpperCase()}]` + after;
+  // Restore selection
+  textarea.focus();
+  textarea.selectionStart = start;
+  textarea.selectionEnd = end + tag.length * 2 + 5; // [TAG][/TAG]
+}
+document.getElementById('tag-narrative').onclick = () => wrapSelection('NARRATIVE');
+document.getElementById('tag-spoken').onclick = () => wrapSelection('SPOKEN');
+document.getElementById('tag-internal').onclick = () => wrapSelection('INTERNAL');
+
+// Send to TTS button logic
+const sendToTTSBtn = document.getElementById('send-to-tts');
+
+// Add Auto-Tag for TTS button
+const autoTagBtn = document.createElement('button');
+autoTagBtn.type = 'button';
+autoTagBtn.id = 'auto-tag-tts';
+autoTagBtn.textContent = 'Auto-Tag for TTS';
+llmResponse.parentNode.insertBefore(autoTagBtn, sendToTTSBtn);
+
+autoTagBtn.onclick = () => {
+  const text = llmResponse.textContent;
+  const lines = text.split(/\n|\r/);
+  let tagged = '';
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    if (/".*"/.test(trimmed)) {
+      tagged += `[SPOKEN]${trimmed}[/SPOKEN]\n`;
+    } else {
+      tagged += `[NARRATIVE]${trimmed}[/NARRATIVE]\n`;
+    }
+  });
+  ttsText.value = tagged.trim();
+  ttsText.focus();
+};
+
+// Update Send to TTS: if no tags, auto-tag first
+sendToTTSBtn.onclick = async () => {
+  let text = ttsText.value;
+  if (!/\[(narrative|spoken|internal)\]/i.test(text)) {
+    // Auto-tag if no tags present
+    const lines = text.split(/\n|\r/);
+    let tagged = '';
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) return;
+      if (/".*"/.test(trimmed)) {
+        tagged += `[SPOKEN]${trimmed}[/SPOKEN]\n`;
+      } else {
+        tagged += `[NARRATIVE]${trimmed}[/NARRATIVE]\n`;
+      }
+    });
+    text = tagged.trim();
+    ttsText.value = text;
+  }
+  // Robust regex: match tags with optional whitespace, case-insensitive, multiline
+  const tagRegex = /\[\s*(narrative|spoken|internal)\s*\]([\s\S]*?)\[\s*\/\s*\1\s*\]/gim;
+  let segments = [];
+  let lastIndex = 0;
+  let match;
+  while ((match = tagRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      // Un-tagged text before this tag
+      const untagged = text.substring(lastIndex, match.index).replace(/\[.*?\]/g, '').trim();
+      if (untagged) segments.push({ tag: null, text: untagged });
+    }
+    // Only push the inner text, not the tag
+    segments.push({ tag: match[1].toUpperCase(), text: match[2].replace(/\[.*?\]/g, '').trim() });
+    lastIndex = tagRegex.lastIndex;
+  }
+  if (lastIndex < text.length) {
+    const untagged = text.substring(lastIndex).replace(/\[.*?\]/g, '').trim();
+    if (untagged) segments.push({ tag: null, text: untagged });
+  }
+  // Remove empty segments
+  segments = segments.filter(s => s.text.length > 0);
+  if (segments.length === 0) {
+    ttsStatus.textContent = 'No text to speak.';
+    return;
+  }
+  ttsStatus.textContent = 'Generating batch speech...';
+  ttsAudio.style.display = 'none';
+  // Get voice assignments
+  const voiceMap = {
+    NARRATIVE: document.getElementById('voice-narrative').value,
+    SPOKEN: document.getElementById('voice-spoken').value,
+    INTERNAL: document.getElementById('voice-internal').value
+  };
+  const platform = ttsPlatform.value;
+  // For each segment, request TTS and play in sequence
+  let audios = [];
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
+    const voice = seg.tag && voiceMap[seg.tag] ? voiceMap[seg.tag] : voiceSelect.value;
+    try {
+      ttsStatus.textContent = `Generating speech (${i+1}/${segments.length})...`;
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: seg.text,
+          voice,
+          platform
+        })
+      });
+      if (!res.ok) throw new Error('TTS failed');
+      const blob = await res.blob();
+      audios.push(URL.createObjectURL(blob));
+    } catch (err) {
+      ttsStatus.textContent = 'Error: ' + err;
+      return;
+    }
+  }
+  // Play audios in sequence
+  let idx = 0;
+  function playNext() {
+    if (idx >= audios.length) {
+      ttsStatus.textContent = '';
+      return;
+    }
+    ttsAudio.src = audios[idx];
+    ttsAudio.style.display = 'block';
+    ttsAudio.play();
+    idx++;
+    ttsAudio.onended = playNext;
+  }
+  playNext();
+}; 
