@@ -23,4 +23,7 @@ Thumbs.db
 
 # Docker
 *.env
-docker-compose.override.yml 
+docker-compose.override.yml
+
+# RAG data (do not commit book content)
+llm-server/rag-data/

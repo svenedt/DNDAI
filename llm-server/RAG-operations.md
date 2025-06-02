@@ -1,5 +1,7 @@
 # RAG Operations & Management
 
+> **Note:** The source books directory (`BOOKS_DIR`) and RAG data directory (`RAG_DATA_DIR`) can be set via environment variables or a `.env` file. These are used by both the backend server and ingestion scripts. See the llm-server/README.md for details.
+
 This page documents how to run, schedule, tune, and quality-control your RAG (Retrieval-Augmented Generation) ingestion pipeline for RPG books and similar content.
 
 ---
@@ -76,4 +78,4 @@ This page documents how to run, schedule, tune, and quality-control your RAG (Re
 
 ---
 
-*Update this page as your workflow evolves!* 
+_Update this page as your workflow evolves!_

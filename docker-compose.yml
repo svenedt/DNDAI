@@ -12,4 +12,4 @@ services:
     volumes:
       - ./llm-server:/app
     ports:
-      - "5050:5000" 
+      - "5050:5000"

@@ -2,8 +2,12 @@
 flask
 flask-cors
 pytest
+requests
+gtts
+python-dotenv
+chromadb
 
 # Placeholder for LLM server dependencies
-# Add packages like flask, openai, etc. as needed 
+# Add packages like flask, openai, etc. as needed
 flask
-flask-cors 
+flask-cors

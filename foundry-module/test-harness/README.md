@@ -4,4 +4,4 @@ This directory contains a standalone test harness for the DM Approval UI used in
 
 ## Usage
 
-Open `index.html` in your browser to test the modal dialog and its controls without needing Foundry VTT. 
+Open `index.html` in your browser to test the modal dialog and its controls without needing Foundry VTT.

@@ -5,11 +5,13 @@ This is a minimal Python Flask server for the DNDAI project. It currently provid
 ## Setup
 
 1. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
 
 2. (Optional) Create a `.env` file in this directory to configure API keys and directories:
+
    ```env
    OPENROUTER_API_KEY=your_openrouter_key
    ELEVENLABS_API_KEY=your_elevenlabs_key
@@ -17,6 +19,7 @@ This is a minimal Python Flask server for the DNDAI project. It currently provid
    BOOKS_DIR=/mnt/user/dnd/DRIVE/Books
    RAG_DATA_DIR=llm-server/rag-data
    ```
+
    - `BOOKS_DIR`: Directory containing source PDFs for ingestion (default: `/mnt/user/dnd/DRIVE/Books`)
    - `RAG_DATA_DIR`: Directory for ingested RAG markdown files (default: `llm-server/rag-data`)
 
@@ -26,6 +29,7 @@ This is a minimal Python Flask server for the DNDAI project. It currently provid
    ```
 
 ## API
+
 - **POST /api/llm**
   - Request body: JSON
   - Response: `{ "echo": <your input JSON> }`
@@ -48,9 +52,11 @@ If you see import errors, ensure you are running the test from the project root 
 ## Advanced Multi-Voice, Multi-Persona, and Narrative Tagging Roadmap
 
 **Vision:**
+
 - Enable Baldur's Gate 3-style narration and immersive AI-driven scenes with multiple characters, voices, and narrative/emote tagging.
 
 **Planned Features:**
+
 - **Input Tagging:** Allow users to highlight/select portions of text and tag as "Narrative" (narrator voice), "Spoken" (dialogue, by character), or "Internal/Whisper" (thoughts, special voice or text-only).
 - **Persona-to-Voice Mapping:** Assign TTS voices to each persona/character, including a dedicated narrator voice.
 - **Batch TTS Playback:** Parse LLM output into segments by tag/persona and play them in sequence, switching voices as needed. Support "Play All" and per-segment playback.
@@ -60,12 +66,14 @@ If you see import errors, ensure you are running the test from the project root 
 - **Player/DM Workflow:** Make it easy for players/DMs to input, tag, and send complex scene text, and for the LLM to respond in a structured, multi-voice format.
 
 **Next Steps:**
+
 - Document and design the technical and user experience strategy for these features before implementation.
 - Prioritize based on technical feasibility, user value, and integration with existing LLM/TTS flows.
 
-*This section is a living roadmap for the next generation of immersive, multi-voice, AI-powered tabletop experiences!*
+_This section is a living roadmap for the next generation of immersive, multi-voice, AI-powered tabletop experiences!_
 
 ## New Features (June 2025)
+
 - **Robust tag parsing:** The TTS demo now supports a wide variety of tag styles (e.g., [NARRATIVE], [NARRATIVE:], NARRATIVE:, etc.) and strips all tags before sending text to TTS.
 - **Debug Log:** A collapsible debug panel in the UI shows exactly how your input is parsed, tagged, and assigned to voices—making troubleshooting easy.
-- **Persistent voice settings:** Your TTS platform and voice assignments are saved across page refreshes for a smoother workflow. 
+- **Persistent voice settings:** Your TTS platform and voice assignments are saved across page refreshes for a smoother workflow.

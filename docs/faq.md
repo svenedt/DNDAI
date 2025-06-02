@@ -54,4 +54,5 @@ A: Expand the Debug Log panel in the demo UI to see how your input is parsed and
 A: Check the docs, then open a GitHub issue with details and logs.
 
 ---
-For more, see [README.md](../README.md), [user-guide.md](./user-guide.md), [dev-guide.md](./dev-guide.md), and [troubleshooting.md](./troubleshooting.md). 
+
+For more, see [README.md](../README.md), [user-guide.md](./user-guide.md), [dev-guide.md](./dev-guide.md), and [troubleshooting.md](./troubleshooting.md).
