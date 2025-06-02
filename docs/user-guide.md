@@ -11,6 +11,13 @@ This guide explains how to use the DNDAI demo UI and its main features.
 
 ---
 
+## Accessibility
+
+- The demo UI includes ARIA roles, keyboard navigation, and accessible debug log and modal dialogs.
+- Please report any accessibility issues or suggestions.
+
+---
+
 ## How the Demo UI Communicates with the Backend
 
 ```mermaid

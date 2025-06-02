@@ -1,4 +1,5 @@
 import os
+import logging
 from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -18,6 +19,13 @@ RAG_DATA_DIR = os.getenv("RAG_DATA_DIR", "rag-data")
 app = Flask(__name__)
 CORS(app)
 
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger(__name__)
+
 
 @app.route("/api/llm", methods=["POST"])
 def llm():
@@ -25,6 +33,7 @@ def llm():
     prompt = data.get("prompt", "")
     persona = data.get("persona", "")
     rag_file = data.get("rag_file", None)
+    logger.info(f"/api/llm called. Persona: {persona[:40]}... RAG: {rag_file}")
     # RAG: load context from file if provided
     context = ""
     if rag_file:
@@ -32,6 +41,7 @@ def llm():
             with open(os.path.join(RAG_DATA_DIR, rag_file), "r") as f:
                 context = f.read()
         except Exception as e:
+            logger.error(f"Error loading RAG file {rag_file}: {e}")
             context = f"[Error loading RAG file: {e}]"
     # Compose system prompt
     system_prompt = persona
@@ -57,8 +67,10 @@ def llm():
         )
         resp.raise_for_status()
         completion = resp.json()["choices"][0]["message"]["content"]
+        logger.info("LLM completion successful.")
         return jsonify({"completion": completion, "context": context})
     except Exception as e:
+        logger.error(f"LLM API error: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -68,6 +80,7 @@ def tts():
     text = data.get("text", "")
     voice = data.get("voice", "")
     platform = data.get("platform", "gtts")
+    logger.info(f"/api/tts called. Platform: {platform}, Voice: {voice}")
     if platform == "elevenlabs":
         # ElevenLabs API
         url = f"https://api.elevenlabs.io/v1/text-to-speech/{voice}"
@@ -82,8 +95,10 @@ def tts():
         try:
             resp = requests.post(url, headers=headers, json=payload)
             resp.raise_for_status()
+            logger.info("TTS (ElevenLabs) audio generated.")
             return send_file(BytesIO(resp.content), mimetype="audio/mpeg")
         except Exception as e:
+            logger.error(f"TTS ElevenLabs error: {e}")
             return jsonify({"error": str(e)}), 500
     else:
         # gTTS
@@ -92,13 +107,16 @@ def tts():
             buf = BytesIO()
             tts.write_to_fp(buf)
             buf.seek(0)
+            logger.info("TTS (gTTS) audio generated.")
             return send_file(buf, mimetype="audio/mpeg")
         except Exception as e:
+            logger.error(f"TTS gTTS error: {e}")
             return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/voices", methods=["GET"])
 def voices():
+    logger.info("/api/voices called.")
     # ElevenLabs voices
     url = "https://api.elevenlabs.io/v1/voices"
     headers = {"xi-api-key": ELEVENLABS_API_KEY}

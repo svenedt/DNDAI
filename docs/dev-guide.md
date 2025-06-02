@@ -105,4 +105,18 @@ graph LR
 
 ---
 
+## CI & Pre-commit Status
+
+- See the badges at the top of the main [README.md](../README.md) for build, pre-commit, and Python version status.
+- All code must pass pre-commit hooks and CI before merging.
+
+---
+
+## Accessibility
+
+- The demo UI and Foundry module test harness include ARIA roles, keyboard navigation, and focus management for accessibility.
+- Please report any accessibility issues or suggestions.
+
+---
+
 For more, see [architecture.md](./architecture.md), [api.md](./api.md), and the main [README.md](../README.md).

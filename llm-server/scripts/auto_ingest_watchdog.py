@@ -4,6 +4,14 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import subprocess
 from dotenv import load_dotenv
+import logging
+
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -29,20 +37,24 @@ class PDFHandler(FileSystemEventHandler):
             basename = pdf_basename(event.src_path)
             ingested = get_ingested_basenames()
             if basename in ingested:
-                print(
-                    f"[auto-ingest] PDF {event.src_path} already ingested, "
-                    f"skipping."
-                )
+                logger.info(f"PDF {event.src_path} already ingested, skipping.")
                 return
-            print(
-                f"[auto-ingest] New PDF detected: {event.src_path}. "
-                "Starting ingestion..."
-            )
-            subprocess.Popen(["python3", INGEST_SCRIPT, event.src_path])
+            logger.info(f"New PDF detected: {event.src_path}. Starting ingestion...")
+            try:
+                subprocess.Popen(
+                    [
+                        "python3",
+                        INGEST_SCRIPT,
+                        event.src_path,
+                    ]
+                )
+                logger.info(f"Ingestion subprocess started for {event.src_path}")
+            except Exception as e:
+                logger.error(f"Error starting ingestion for {event.src_path}: {e}")
 
 
 if __name__ == "__main__":
-    print(f"[auto-ingest] Watching {BOOKS_DIR} for new PDFs...")
+    logger.info(f"[auto-ingest] Watching {BOOKS_DIR} for new PDFs...")
     event_handler = PDFHandler()
     observer = Observer()
     observer.schedule(event_handler, BOOKS_DIR, recursive=False)
@@ -51,5 +63,6 @@ if __name__ == "__main__":
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
+        logger.info("[auto-ingest] Stopping PDF watcher.")
         observer.stop()
     observer.join()

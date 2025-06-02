@@ -71,4 +71,48 @@ sequenceDiagram
 
 ## RAG Management Endpoints
 
-### `
+### `GET /api/rag/books`
+
+- **Description:** List all source PDFs available for ingestion.
+- **Response JSON:**
+  ```json
+  { "books": [ "DnD 5e Players Handbook.pdf", ... ] }
+  ```
+
+### `GET /api/rag/ingested`
+
+- **Description:** List all ingested RAG markdown files.
+- **Response JSON:**
+  ```json
+  { "chunks": [ "example.md", ... ] }
+  ```
+
+### `GET /api/rag/preview?file=example.md`
+
+- **Description:** Preview the content of an ingested RAG file.
+- **Response JSON:**
+  ```json
+  { "content": "...file content..." }
+  ```
+
+### `POST /api/rag/ingest`
+
+- **Description:** Trigger ingestion of a PDF (manual/batch).
+- **Request JSON:**
+  ```json
+  { "book": "DnD 5e Players Handbook.pdf" }
+  ```
+- **Response JSON:**
+  ```json
+  { "status": "Ingestion started for ...", "book": "..." }
+  ```
+
+### `GET /pdfs/<filename>`
+
+- **Description:** Serve a PDF file from the books directory for in-browser viewing.
+- **Response:**
+  - PDF file
+
+---
+
+For more details, see the main [README.md](../README.md) and [architecture.md](./architecture.md).

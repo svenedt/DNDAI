@@ -15,6 +15,16 @@ See diagrams below for batch RAG and multi-voice TTS workflows.
 
 ---
 
+## Example: Batch RAG Ingestion with Cron
+
+To run batch ingestion every night at 2am, add this to your crontab:
+
+```
+0 2 * * * cd /path/to/DNDAI && /usr/bin/python3 llm-server/scripts/ingest_rag.py --all
+```
+
+---
+
 ## Diagrams: Batch RAG Ingestion & Multi-Voice TTS
 
 ### Batch/Scheduled RAG Ingestion
@@ -43,6 +53,16 @@ graph TD
 
   Script --> Parse --> Assign --> TTSAPI --> Audio
 ```
+
+#### Example: Multi-Voice TTS Script
+
+```
+[NARRATIVE]The wizard enters the room, his robes billowing.[/NARRATIVE]
+[SPOKEN]"Who dares disturb my studies?"[/SPOKEN]
+[INTERNAL]He seems nervous, but tries to hide it.[/INTERNAL]
+```
+
+Assign voices to each tag in the UI for immersive playback.
 
 ---
 

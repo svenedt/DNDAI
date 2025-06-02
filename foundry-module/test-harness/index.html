@@ -15,8 +15,8 @@
 <body>
   <h1>DM Approval UI Test Harness</h1>
   <button onclick="showModal('The goblin grins and says, \"Welcome to the dungeon!\"')">Show DM Approval Modal</button>
-  <div id="overlay"></div>
-  <div id="modal">
+  <div id="overlay" tabindex="-1" aria-hidden="true"></div>
+  <div id="modal" role="dialog" aria-modal="true" aria-label="DM Approval Modal" tabindex="-1">
     <h2>DM Approval</h2>
     <textarea id="suggestion"></textarea><br>
     <button onclick="accept()">Accept</button>

@@ -3,9 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#181a1b">
   <title>DNDAI LLM / RAG / TTS Demo</title>
   <style>
     body { font-family: sans-serif; margin: 2em; background: #181a1b; color: #eee; }
+    @media (max-width: 700px) {
+      body { margin: 0.5em; }
+      .section { padding: 0.5em; }
+      h1 { font-size: 1.3em; }
+      h2 { font-size: 1.1em; }
+      textarea, select, input[type=text] { font-size: 1em; }
+    }
     h1, h2 { color: #ffd700; }
     .section { margin-bottom: 2em; padding: 1em; background: #23272a; border-radius: 8px; }
     label { font-weight: bold; }
@@ -15,6 +23,9 @@
     #llm-response, #tts-audio { margin-top: 1em; }
     #voice-reset { float: right; }
     #context { background: #222; border: 1px solid #444; padding: 1em; margin-top: 1em; border-radius: 6px; color: #ffd700; }
+    #debug-log-toolbar { display: flex; justify-content: flex-end; margin-bottom: 0.5em; }
+    #clear-debug-log { background: #444; color: #ffd700; border: none; border-radius: 4px; padding: 0.3em 0.8em; cursor: pointer; font-size: 0.95em; }
+    #clear-debug-log:active { background: #222; }
   </style>
 </head>
 <body>
@@ -72,11 +83,11 @@
       <div id="voice-assignment-panel" style="margin:1em 0; padding:0.5em; background:#222; border-radius:6px;">
         <strong>Voice Assignment:</strong><br>
         <label for="voice-narrative">Narrative:</label>
-        <select id="voice-narrative"></select>
+        <select id="voice-narrative" title="Assign a voice for narrative text"></select>
         <label for="voice-spoken">Spoken:</label>
-        <select id="voice-spoken"></select>
+        <select id="voice-spoken" title="Assign a voice for spoken dialogue"></select>
         <label for="voice-internal">Internal/Whisper:</label>
-        <select id="voice-internal"></select>
+        <select id="voice-internal" title="Assign a voice for internal/whisper text"></select>
       </div>
       <label for="tts-text">Text-to-Speech:</label>
       <textarea id="tts-text" rows="2"></textarea>
@@ -86,9 +97,10 @@
     <div id="tts-status"></div>
   </div>
 
-  <details style="margin-top:2em;">
+  <details style="margin-top:2em;" aria-label="Debug Log" aria-live="polite">
     <summary style="font-weight:bold; color:#ffd700;">Debug Log</summary>
-    <pre id="debug-log" style="background:#111; color:#ffd700; padding:1em; border-radius:8px; max-height:300px; overflow:auto;"></pre>
+    <div id="debug-log-toolbar"><button id="clear-debug-log" title="Clear the debug log">Clear</button></div>
+    <pre id="debug-log" style="background:#111; color:#ffd700; padding:1em; border-radius:8px; max-height:300px; overflow:auto;" tabindex="0" aria-live="polite"></pre>
   </details>
 
   <div class="section" id="rag-management-section">
@@ -96,12 +108,13 @@
     <div>
       <strong>Books (PDFs ready for ingestion):</strong>
       <ul id="rag-books-list"></ul>
+      <span style="font-size:0.95em; color:#ffd700;" title="Ingesting will process the PDF for RAG use. You will be asked to confirm.">ℹ️ Ingesting will process the PDF for RAG use.</span>
     </div>
     <div style="margin-top:1em;">
       <strong>Ingested Chapters:</strong>
       <ul id="rag-ingested-list"></ul>
     </div>
-    <div id="rag-preview-modal" style="display:none; background:#111; color:#ffd700; padding:1em; border-radius:8px; margin-top:1em;"></div>
+    <div id="rag-preview-modal" style="display:none; background:#111; color:#ffd700; padding:1em; border-radius:8px; margin-top:1em;" role="dialog" aria-modal="true" aria-label="RAG Preview"></div>
   </div>
 
   <script src="demo/demo.js"></script>
