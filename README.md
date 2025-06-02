@@ -1,5 +1,11 @@
 # DNDAI: D&D AI Modular Project
 
+[![Build Status](https://github.com/svenedt/DNDAI/actions/workflows/python-app.yml/badge.svg)](https://github.com/svenedt/DNDAI/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-available-brightgreen)](docs/)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![Last Commit](https://img.shields.io/github/last-commit/svenedt/DNDAI.svg)](https://github.com/svenedt/DNDAI/commits/main)
+
 ## What is DNDAI?
 
 **DNDAI** is a next-generation, open-source platform that brings the power of modern AI to your Dungeons & Dragons (and other TTRPG) table. It's not just a chatbot or a rules lookup tool—it's a modular, extensible "AI co-DM" system designed to make your games more immersive, creative, and fun, while always keeping the Dungeon Master in control.
